@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      String       @id @default(uuid())
+  email   String    @unique
+  name    String
+  actived Boolean   @default(true)
+  hour    Hour[]
+  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+  @@index([email, name], type: BTree)
+}
+
+model Project {
+  id          String     @id @default(uuid())
+  title       String
+  description String? @db.Text
+  cost        Boolean @default(true)
+  hour        Hour[]
+  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+
+  @@index([title, cost], type: BTree)
+}
+
+model Hour {
+  id          String      @id @default(uuid())
+  date        DateTime @db.Date
+  count       Float    @db.Real
+  description String?  @db.Text
+  project     Project  @relation(fields: [projectId], references: [id])
+  projectId   String
+  user        User  @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt          DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime  @updatedAt @db.Timestamptz(3)
+
+  @@index([date, projectId, userId], type: BTree)
+}

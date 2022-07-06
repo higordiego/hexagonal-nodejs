@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres:12-alpine
+    container_name: 'postgres-hours'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DATABASE_NAME="hours"
+      - DATABASE_HOST="localhost"
+      - DATABASE_TYPE="postgres"
+    volumes:
+      - './data/postgres:/var/lib/postgresql-db/data'
+    ports:
+      - 5432:5432
+  redis:
+    image: redis
+    command: redis-server
+    ports:
+      - "6379:6379"
