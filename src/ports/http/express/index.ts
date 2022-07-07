@@ -1,6 +1,6 @@
 import FactoryRouters from '../../../adapters/handlers/http';
 import { appConfig } from '../../../config/index'
-import RepositoyRateLimnit from '../../databases/redis/repository/rate-limit';
+import { RepositoyRateLimnit } from '../../databases/redis/index';
 import RateLimit from '../security/rate-limit/index'
 import HeadersSecurity from '../security/headers/index'
 import PollutionSecurity from '../security/pollution/index'
@@ -19,7 +19,7 @@ export default class ExpressInit  {
     private readonly urlEncoded = express.urlencoded({ extended: true, limit: appConfig.limitBody })
     private readonly jsonBody = express.json({ limit: appConfig.limitBody })
     
-    constructor(app: express.Application, router: Router, repositoryCache: RepositoyRateLimnit) {
+    constructor(app: any, router: Router, repositoryCache: RepositoyRateLimnit) {
         this.app = app
         this.factory = new FactoryRouters(router)
         this.rateLimit = new RateLimit(repositoryCache)
@@ -41,7 +41,6 @@ export default class ExpressInit  {
 
     
     async initServer(): Promise<void> {
-        const routes = await this.factory.routers()
         this.app.use(this.compressionPerfomance.verify())
         this.app.use(this.urlEncoded)
         this.app.use(this.jsonBody)
@@ -49,7 +48,7 @@ export default class ExpressInit  {
         this.app.use(this.headersSecurity.verify())
         this.app.use(this.pollutionSecurity.verify())
         this.app.disable(this.headersSecurity.xPoweredBy);
-        this.app.use(routes)
+        this.app.use(this.factory.routers())
         this.app.listen(appConfig.nodePort)
     }
 }

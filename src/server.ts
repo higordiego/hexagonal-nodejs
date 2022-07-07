@@ -1,7 +1,6 @@
 import express, { Router } from 'express'
 import ExpressInit from './ports/http/express'
-import RedisClient from './ports/databases/redis/connect'
-import RepositoyRateLimnit from './ports/databases/redis/repository/rate-limit'
+import { RedisClient, RepositoyRateLimnit } from './ports/databases/redis'
 
 const app = express();
 
