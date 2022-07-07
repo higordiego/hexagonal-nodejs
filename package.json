@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:prod": "node dist/src/server.js",
+    "start:prod": "node dist/server.js",
     "dev:inspect": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "start:dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "build": "rm -rf dist && tsc",
