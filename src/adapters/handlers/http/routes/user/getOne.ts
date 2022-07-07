@@ -1,7 +1,6 @@
 import { Request, Response } from "../../../../../ports/http/interfaces/index";
 import LoggerWinston from "../../../../../ports/logger/winston";
 
-
 export default class RouteHttpGetOneUse {
 
     public readonly url = '/user'
