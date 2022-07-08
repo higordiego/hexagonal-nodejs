@@ -7,6 +7,4 @@ export default class CompressionPerfomance {
     verify() {
         return this._compresssion()
     }
-
-    
 }

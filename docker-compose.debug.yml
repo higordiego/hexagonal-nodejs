@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   horasbackrefactory:
-    image: horasbackrefactory
+    image: hexagonal-nodejs
     build:
       context: .
       dockerfile: ./Dockerfile
